@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="Velveteen Claymore">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./main.css">
+    <title>doin your mom doin doin your mom</title>
+    <script src="https://kit.fontawesome.com/9a0aa8f809.js" crossorigin="anonymous"></script>
+    <script src='./main.js'></script>
+    <!--Beta Version 1.0-->
+</head>
+
+<body>
+    <header>
+        <div id="heading">
+            <h1 class="rgb-text">
+                Random Number Game
+            </h1>
+        </div>
+    </header>
+
+    <main>
+        <h2 class="subheading">
+            Welcome!
+        </h2>
+        
+        <section id="intro">
+            <hr>
+            I present to you a web-game where your goal is to guess a random number in the least amount of tries possible. The random number is an integer from 1 to 69. A list of all your entries is displayed when the correct number is guessed. There is also a leaderboard available that displays the all-time score leaders based on lowest score. Start off by clicking the button below. The current number of attempts you've made is shown once you submit an answer. Feedback based on your answer is given to assist you. Invalid input does not accrue attempts.
+        </section>
+
+        <section id="content-box">
+            <div id="start" title="Start">start</div>
+
+            <div id="name-field" class="input-field">
+                <input id="name-input" class="user-input" placeholder="Enter your name...">
+                <button type="button" id="name-submit" class="submit" title="Submit">Submit</button>
+            </div>
+            <div id="score-field", class="input-field">
+                <input id="score-input" class="user-input" placeholder="Enter your guess...">
+                <button type="button" id="score-submit" class="submit" title="Submit">Submit</button>
+            </div>
+
+            <div id="feedback"></div>
+
+            <div id="end">
+                <div id="refresh" class="btn" style="margin-right: 5%;" title="Reset">Reset</div>
+                <div id="leaderboard-btn" class="btn" style="margin-left: 5%;" title="Show Leaderboard">Leaderboard</div>
+            </div>
+            <div id="leaderboard-sec">
+                <h2 class="subheading">Leaderboard</h2>
+                <div id="leaderboard"></div>
+                <div id="leaderboard-refresh" class="btn" title="Reset" style="display: block; margin: auto;">Restart</div>
+            </div>
+        </section>
+    </main>
+    <script>
+
+        /*Life span stuff*/
+        // existingInfo accesses the current leader list if one had been made already
+        const debugExistingInfo = JSON.parse(localStorage.getItem('debugLeaderList'));
+        // leaderList will hold objects with usernames and userscores. the object list will be empty on first use but will update itself after each time it's played
+        const leaderList = debugExistingInfo || []; 
+        
+
+        /*Insult stuff*/
+        // Customizable list of insults
+        const insults = ['Not bad. Contact mediocrity_at_its_finest@gmail.com to receive a participation certificate.', 'It takes me less tries to push food from Taco Bell out through my digestive system.', 'Wow, you somehow did worse at guessing than the Capitol police did at holding back those rioters.', 'If you managed to get this bad of a roll on how many tries you took, you\'re as good with numbers as Dream\'s buddy from Harvard.', 'Congrats! You have now achieved as much as an art history major ever will.', 'Wanna know what other number is as large as this pitiful number of attempts? 153.219.13.178', 'Your bank account is envious of the number of tries it took you.', 'The number of tries you took is almost that of the last 7 digits of your mother\'s phone number.'];
+        // An incult is chosen at random, and the range fluctuates with however many insults there are
+        const insultIndex = Math.floor(Math.random() * insults.length);
+        //Chooses what insult to display
+        const insult = (num) => {
+            if (num == 1) {
+                return 'Wow, first try. Something to finally put on that resume.';
+            }
+            else if (num > 1 && num < 10) {
+                return insults[insultIndex];
+            }
+            else if (num >= 10) {
+                return 'It took you this many guesses? This is a certified Meh moment';
+            }
+        };
+
+
+        /*Guess/User Input stuff*/
+        const rand = Math.floor(Math.random() * 69) + 1; // 1-69 range
+        let guessCount = 0;
+        let guessList = [];
+        // testing only, displays the current answer
+        //document.getElementById('feedback').innerHTML = rand;
+
+        // runs feedback logic
+        const logic = () => {
+            let guess = document.getElementById('score-input').value; // value is determined by user input
+            let feedbackText = ''; // feedback text
+            let attemptNum = ''; // to display attempts later as text
+            if (isNaN(guess) || guess > 69 || guess < 1) {
+                feedbackText = 'Invalid input. Try again.';
+
+                document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
+            }
+            else if (guess < rand) {
+                feedbackText = 'Guess too low, try again.';
+                ++guessCount;
+                guessList.push(guess);
+
+                document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
+            }
+            else if (guess > rand) {
+                feedbackText = 'Guess too high, try again';
+                ++guessCount;
+                guessList.push(guess);
+
+                document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
+            }
+            else if (guess == rand) {
+                feedbackText = 'Guess correct.'
+                ++guessCount;
+                guessList.push(guess);
+                
+                // hides the input and button and brings up the final feedback + the final two buttons
+                document.getElementById('score-field').style.display='none';
+                document.getElementById('feedback').style.marginTop='50px';
+                document.getElementById('feedback').style.fontSize='large';
+                document.getElementById('feedback').style.textAlign='justify';
+                document.getElementById('end').style.display='flex';
+
+                //saves user info
+                leaderCheck(JSON.parse(localStorage.getItem('username')).name, guessCount);
+
+                // collection of user attempts
+                for (let i = 0; i < guessList.length; ++i) {
+                    if (i == guessList.length - 1) {
+                        attemptNum += guessList[i] + '.';
+                        break;
+                    }
+                    attemptNum += guessList[i] + ', ';
+                }
+
+                if (guessCount == 1) {
+                   document.getElementById('feedback').innerHTML = 'Congratulations! It took you ' + guessCount + ' try to get the correct number.\nHere is your attempt history: ' + attemptNum + '\n' + insult(guessCount); 
+                }
+                else {
+                    document.getElementById('feedback').innerHTML = 'Congratulations! It took you ' + guessCount + ' tries to get the correct number.\nHere is your attempt history: ' + attemptNum + '\n' + insult(guessCount);
+                }
+            }
+    
+        };
+        document.getElementById('score-submit').onclick = logic;
+        
+        /*Data Handling*/
+        // Saves the user's name to a local JSON file
+            const saveName = (param_name) => {
+                let nameObj = {
+                    "name": String(param_name)
+                };
+                // nameObj.name = param_name;
+                localStorage.setItem("username", JSON.stringify(nameObj));
+            };
+        //Redefines leaderList to be sorted by ascending order of user scores. Also adds user name and score to history array.
+        const leaderCheck = (name, score) => {
+            /* So instead of having a set object for the top 5 scores, I'll just implement an object that stores the entire history of scores and names. It'll add to itself after each playthrough. In terms of sorting the top 10, and eventually displaying them, I can just truncate the score history object.
+            */
+           let userInfo = {
+               "name": String(name),
+               "score": Number(score)
+           };
+           
+           leaderList.push(userInfo);
+           localStorage.setItem('debugLeaderList',JSON.stringify(leaderList))
+
+           //sorting
+           leaderList.sort(function(a,b){return a.score - b.score});
+
+           //console.log(leaderList);
+           
+        };
+
+
+        /*Event Handling, basically changes around the DOM*/
+        const gatherName = () => {
+            // hides start button and brings up the input field and button while saving the user's name
+            let name = document.getElementById('name-input').value;
+            document.getElementById('name-field').style.display='flex';
+            document.getElementById('start').style.display='none';
+            saveName(name);
+        };
+        document.getElementById('start').onclick = gatherName;
+
+        const initiate = () => {
+                // brings up the main game input field
+                document.getElementById('score-field').style.display = 'flex';
+                document.getElementById('name-field').style.display = 'none';
+                saveName(document.getElementById('name-input').value);
+        };
+        document.getElementById('name-submit').onclick = initiate;
+
+        const restart = () => {
+            // reloads page to reset everything
+            location.reload();
+        };
+        document.getElementById('refresh').onclick = restart;
+
+        const leaderboard_restart = () => {
+            // a second event handler for the restart button in the leaderboard display
+            location.reload();
+        };
+        document.getElementById('leaderboard-refresh').onclick = leaderboard_restart;
+
+        const displayLeaders = () => {
+            // displays leaderboard
+            let leaderboardText = '';
+            for (let i = 0; i < leaderList.length; i++)
+            {
+                if (i > 9)
+                {
+                    break;
+                }
+                //1-3 places will get fancy styling. The <pre> tag is honestly just kinda there, chosen at random
+                else if (i == 0)
+                {
+                    leaderboardText += `<div class=\"first-place\"> <pre> Place: ${String(i + 1)} </pre> <pre> Name: ${leaderList[i].name} </pre> <pre> Score: ${leaderList[i].score} </pre> </div>`;
+                    continue;
+                }
+                else if (i == 1)
+                {
+                    leaderboardText += `<div class=\"second-place\"> <pre> Place: ${String(i + 1)} </pre> <pre> Name: ${leaderList[i].name} </pre> <pre> Score: ${leaderList[i].score} </pre> </div>`;
+                    continue;
+                }
+                else if (i == 2)
+                {
+                    leaderboardText += `<div class=\"third-place\"> <pre> Place: ${String(i + 1)} </pre> <pre> Name: ${leaderList[i].name} </pre> <pre> Score: ${leaderList[i].score} </pre> </div>`;
+                    continue;
+                }
+
+                leaderboardText += `<div> <pre> Place: ${String(i+1)} </pre> <pre> Name: ${leaderList[i].name} </pre> <pre> Score: ${leaderList[i].score} </pre> </div>`;
+            }
+            document.getElementById('leaderboard-sec').style.display = 'grid';
+            document.getElementById('leaderboard').innerHTML = leaderboardText;
+            document.getElementById('end').style.display = 'none';
+
+
+        };
+        document.getElementById('leaderboard-btn').onclick = displayLeaders;
+
+        // const weDoALittleBitOfTrolling = () => {
+        //     document.getElementById('troll').style.color = 'mediumorchid';
+        // };
+        // document.getElementById('troll').onclick = weDoALittleBitOfTrolling;
+
+    </script>
+    
+</body>
+
+<footer>
+
+    <br>
+    <hr style="width: 70%; margin: auto;">
+    <p>
+        Managed and developed by <a href="https://github.com/VelveteenClaymore" target="_blank" class="rgb-text" title="Shameless Plug">Velveteen Claymore<i class="fab fa-github rgb-text" style="margin-left: 10px;"></i></a>
+    </p>
+    <p>
+        &copy Copyright 2021
+    </p>
+    <p id="troll" onclick="weDoALittleBitOfTrolling()" title="Privacy Policy">
+        Our privacy policy
+    </p>
+
+</footer>
+
+</html>
