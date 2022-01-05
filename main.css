@@ -1,0 +1,267 @@
+/*Author: Velveteen Claymore
+Open Beta Version 1.1*/
+* {
+  background-color: rgb(0, 0, 0);
+  color: rgb(0, 255, 255);
+  box-sizing: border-box; /*makes height and width include padding, border, and margin*/
+}
+
+/*Tag styles*/
+hr {
+  border: 0.5px solid rgb(0, 255, 255);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 15px rgba(100, 25, 255, 0.5);
+  margin-left: 0%;
+  margin-right: 0%;
+}
+pre {
+  font-family: "Electrolize", sans-serif;
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 2vw 5vw; /*Spaces out the places/names/scores on the leaderboard*/
+  background: transparent;
+}
+footer {
+  font-size: 0.8rem;
+  font-family: "Electrolize", sans-serif;
+  text-align: center;
+  margin-top: 30px;
+}
+
+/*Heading styles*/
+#heading {
+  border: 5px solid rgb(0, 255, 255);
+  box-shadow: 0 0 15px 0 rgba(0, 255, 255, 0.5),
+    0 0 25px 0 rgba(100, 25, 255, 0.5); /*Box shadow: y-offset, x-offset, blur amount, color*/
+  max-width: 80%;
+  padding: 20px;
+  margin: 50px auto; /*Auto attribute is what makes it centered*/
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Electrolize", sans-serif;
+  text-shadow: 1.5px 1px 0 rgba(0, 255, 255, 0.5),
+    1.5px 1px 0 rgba(100, 25, 255, 0.5);
+  font-size: 1.5rem;
+  animation: heading-flash 6s linear 0s infinite alternate forwards;
+  -webkit-animation: heading-flash 6s linear 0s infinite alternate forwards;
+  -moz-animation: heading-flash 6s linear 0s infinite alternate forwards;
+  -o-animation: heading-flash 6s linear 0s infinite alternate forwards;
+}
+@keyframes heading-flash {
+  0% {
+    border: 5px solid rgb(0, 255, 255);
+    box-shadow: 0 0 15px 0 rgba(0, 255, 255, 0.5),
+      0 0 25px 0 rgba(100, 25, 255, 0.5);
+    text-shadow: 1.5px 1px 0 rgba(0, 255, 255, 0.5),
+      1.5px 1px 0 rgba(100, 25, 255, 0.5);
+  }
+  33.3% {
+    border: 5px solid rgb(0, 255, 0);
+    box-shadow: 0 0 15px 0 rgba(0, 255, 0, 0.5),
+      0 0 25px 0 rgba(25, 150, 25, 0.5);
+    text-shadow: 1.5px 1px 0 rgba(0, 255, 0, 0.5),
+      1.5px 1px 0 rgba(25, 150, 25, 0.5);
+  }
+  66.7% {
+    border: 5px solid rgb(255, 0, 0);
+    box-shadow: 0 0 15px 0 rgba(255, 0, 0, 0.5),
+      0 0 25px 0 rgba(100, 25, 25, 0.5);
+    text-shadow: 1.5px 1px 0 rgba(255, 0, 0, 0.5),
+      1.5px 1px 0 rgba(100, 25, 25, 0.5);
+  }
+  100% {
+    border: 5px solid rgba(255, 100, 255);
+    box-shadow: 0 0 15px 0 rgba(255, 100, 255, 0.5),
+      0 0 25px 0 rgba(200, 0, 255, 0.5);
+    text-shadow: 1.5px 1px 0 rgba(255, 100, 255, 0.5),
+      1.5px 1px 0 rgba(200, 0, 255, 0.5);
+  }
+}
+
+/*Section styles*/
+.subheading {
+  text-align: center;
+  font-family: "Electrolize", sans-serif;
+}
+#intro {
+  width: 70%;
+  text-align: justify;
+  margin: auto;
+  font-size: 1.2rem;
+  font-family: "Roboto Slab", serif;
+}
+#feedback {
+  text-align: center;
+  font-family: "Roboto Slab", serif;
+  width: 70%;
+  margin: auto;
+}
+#end {
+  height: 90px;
+  margin: 50px auto;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  display: none;
+  font-family: "Electrolize", sans-serif;
+}
+#leaderboard-sec {
+  display: none;
+  margin: 50px auto;
+  font-family: "Electrolize", sans-serif;
+}
+#leaderboard {
+  display: grid;
+  grid-template-columns: auto;
+  font-family: "Electrolize", sans-serif;
+  justify-content: center;
+  margin: 15px auto;
+  padding: 10px;
+}
+#leaderboard > div {
+  /*This acts on all of the leaderboard entries*/
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+}
+
+/*Button & input styles*/
+#start {
+  height: 90px;
+  width: 30%;
+  border: 5px solid rgb(0, 255, 255);
+  margin: 50px auto;
+  text-align: center;
+  font-family: "Electrolize", sans-serif;
+  text-transform: uppercase;
+  line-height: 80px; /*height minus total width of border thickness*/
+  font-size: 2rem;
+  cursor: pointer;
+  transition: background-color 500ms ease, color 500ms ease,
+    box-shadow 500ms ease;
+  -webkit-transition: background-color 500ms ease, color 500ms ease,
+    box-shadow 500ms ease;
+  -moz-transition: background-color 500ms ease, color 500ms ease,
+    box-shadow 500ms ease;
+  -o-transition: background-color 500ms ease, color 500ms ease,
+    box-shadow 500ms ease;
+}
+#start:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(0, 255, 255);
+  box-shadow: 0 0 15px 0 rgba(0, 255, 255, 0.5),
+    0 0 25px 0 rgba(100, 25, 255, 0.5);
+}
+.input-field {
+  height: 90px;
+  margin: 50px 30%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.user-input {
+  border-color: rgb(0, 255, 255);
+  font-family: "Electrolize", sans-serif;
+  height: 30px;
+}
+.submit {
+  border-color: rgb(0, 255, 255);
+  cursor: pointer;
+  font-family: "Electrolize", sans-serif;
+  height: 30px;
+  transition: background-color 500ms ease, color 500ms ease;
+  -webkit-transition: background-color 500ms ease, color 500ms ease;
+  -moz-transition: background-color 500ms ease, color 500ms ease;
+  -o-transition: background-color 500ms ease, color 500ms ease;
+}
+#submit:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(0, 255, 255);
+}
+.btn {
+  display: inline-block;
+  border: 5px solid rgb(0, 255, 255);
+  height: 90px;
+  line-height: 80px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 50%;
+  transition: background-color 500ms ease, color 500ms ease,
+    box-shadow 500ms ease;
+  -webkit-transition: background-color 500ms ease, color 500ms ease,
+    box-shadow 500ms ease;
+  -moz-transition: background-color 500ms ease, color 500ms ease,
+    box-shadow 500ms ease;
+  -o-transition: background-color 500ms ease, color 500ms ease,
+    box-shadow 500ms ease;
+}
+.btn:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(0, 255, 255);
+  box-shadow: 0 0 15px 0 rgba(0, 255, 255, 0.5),
+    0 0 25px 0 rgba(100, 25, 255, 0.5);
+}
+
+/*Placing styles*/
+.first-place {
+  border: outset 7px rgb(218, 165, 32);
+  /* background-image: radial-gradient(red, yellow, green, blue, indigo, violet); */
+  background-image: radial-gradient(
+    rgba(218, 165, 32, 1),
+    rgba(218, 165, 32, 0.8),
+    rgba(218, 165, 32, 0.6),
+    rgba(218, 165, 32, 0.4),
+    rgba(218, 165, 32, 0.2)
+  );
+}
+.second-place {
+  border: outset 7px rgb(128, 128, 128);
+  background-image: radial-gradient(
+    rgba(128, 128, 128, 1),
+    rgba(128, 128, 128, 0.8),
+    rgba(128, 128, 128, 0.6),
+    rgba(128, 128, 128, 0.4),
+    rgba(128, 128, 128, 0.2)
+  );
+}
+.third-place {
+  border: outset 7px rgb(173, 103, 12);
+  background-image: radial-gradient(
+    rgba(173, 103, 12, 1),
+    rgba(173, 103, 12, 0.8),
+    rgba(173, 103, 12, 0.6),
+    rgba(173, 103, 12, 0.4),
+    rgba(173, 103, 12, 0.2)
+  );
+}
+
+/*Text Decoration styles*/
+#troll {
+  color: rgb(0, 0, 255);
+}
+#troll:hover {
+  cursor: pointer;
+  color: rgb(50, 163, 255);
+  text-decoration: underline;
+}
+.rgb-text {
+  animation: letter-flash 6s linear 0s infinite alternate forwards;
+  -webkit-animation: letter-flash 6s linear 0s infinite alternate forwards;
+  -moz-animation: letter-flash 6s linear 0s infinite alternate forwards;
+  -o-animation: letter-flash 6s linear 0s infinite alternate forwards;
+}
+@keyframes letter-flash {
+  0% {
+    color: rgb(0, 255, 255);
+  }
+  33.3% {
+    color: rgb(0, 255, 0);
+  }
+  66.7% {
+    color: rgb(255, 0, 0);
+  }
+  100% {
+    color: rgb(255, 100, 255);
+  }
+}
