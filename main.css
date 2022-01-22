@@ -14,7 +14,7 @@ hr {
   margin-right: 0%;
 }
 pre {
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
   text-align: center;
   font-size: 1.25rem;
   margin: 2vw 5vw; /*Spaces out the places/names/scores on the leaderboard*/
@@ -22,7 +22,7 @@ pre {
 }
 footer {
   font-size: 0.8rem;
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
   text-align: center;
   margin-top: 30px;
 }
@@ -37,7 +37,7 @@ footer {
   margin: 50px auto; /*Auto attribute is what makes it centered*/
   text-align: center;
   text-transform: uppercase;
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
   text-shadow: 1.5px 1px 0 rgba(0, 255, 255, 0.5),
     1.5px 1px 0 rgba(100, 25, 255, 0.5);
   font-size: 1.5rem;
@@ -80,39 +80,37 @@ footer {
 /*Section styles*/
 .subheading {
   text-align: center;
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
 }
 #intro {
   width: 70%;
   text-align: justify;
   margin: auto;
   font-size: 1.2rem;
-  font-family: "Roboto Slab", serif;
+  font-family: "Electrolize", sans-serif;
 }
 #feedback {
   text-align: center;
-  font-family: "Roboto Slab", serif;
+  font-family: "Electrolize", sans-serif;
   width: 70%;
   margin: auto;
 }
 #end {
-  height: 90px;
   margin: 50px auto;
-  justify-content: center;
-  align-items: center;
-  width: 30%;
+  width: 100%;
   display: none;
-  font-family: "Electrolize", sans-serif;
+  grid-template-rows: auto auto;
+  font-family: "Roboto Slab", serif;
 }
 #leaderboard-sec {
   display: none;
   margin: 50px auto;
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
 }
 #leaderboard {
   display: grid;
   grid-template-columns: auto;
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
   justify-content: center;
   margin: 15px auto;
   padding: 10px;
@@ -127,13 +125,13 @@ footer {
 }
 
 /*Button & input styles*/
-#start {
+#start-btn {
   height: 90px;
   width: 30%;
   border: 5px solid rgb(0, 255, 255);
   margin: 50px auto;
   text-align: center;
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
   text-transform: uppercase;
   line-height: 80px; /*height minus total width of border thickness*/
   font-size: 2rem;
@@ -147,7 +145,7 @@ footer {
   -o-transition: background-color 500ms ease, color 500ms ease,
     box-shadow 500ms ease;
 }
-#start:hover {
+#start-btn:hover {
   color: rgb(0, 0, 0);
   background-color: rgb(0, 255, 255);
   box-shadow: 0 0 15px 0 rgba(0, 255, 255, 0.5),
@@ -162,13 +160,13 @@ footer {
 }
 .user-input {
   border-color: rgb(0, 255, 255);
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
   height: 30px;
 }
 .submit {
   border-color: rgb(0, 255, 255);
   cursor: pointer;
-  font-family: "Electrolize", sans-serif;
+  font-family: "Roboto Slab", serif;
   height: 30px;
   transition: background-color 500ms ease, color 500ms ease;
   -webkit-transition: background-color 500ms ease, color 500ms ease;
@@ -180,13 +178,14 @@ footer {
   background-color: rgb(0, 255, 255);
 }
 .btn {
-  display: inline-block;
+  display: block;
   border: 5px solid rgb(0, 255, 255);
+  margin: 5px auto;
   height: 90px;
   line-height: 80px;
   text-align: center;
   text-transform: uppercase;
-  width: 50%;
+  width: 40%;
   transition: background-color 500ms ease, color 500ms ease,
     box-shadow 500ms ease;
   -webkit-transition: background-color 500ms ease, color 500ms ease,
