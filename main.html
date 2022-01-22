@@ -41,7 +41,6 @@
                 <input id="name-input" class="user-input" placeholder="Enter your name...">
                 <button type="button" id="name-submit" class="submit" title="Submit">Submit</button>
             </div>
-            
             <div id="score-field", class="input-field">
                 <input id="score-input" class="user-input" placeholder="Enter your guess...">
                 <button type="button" id="score-submit" class="submit" title="Submit">Submit</button>
@@ -51,20 +50,15 @@
 
             <div id="end">
                 <div id="refresh" class="btn" title="Reset">Reset</div>
-                
                 <div id="leaderboard-btn" class="btn" title="Show Leaderboard">Leaderboard</div>
             </div>
-            
             <div id="leaderboard-sec">
                 <h2 class="subheading">Leaderboard</h2>
-                
                 <div id="leaderboard"></div>
-                
-                <div id="leaderboard-refresh" class="btn" title="Reset" style="display: block; margin: auto;">Restart</div> 
+                <div id="leaderboard-refresh" class="btn" title="Reset" style="display: block; margin: auto;">Restart</div>
             </div>
         </section>
     </main>
-    
     <script>
 
         /*Life span stuff*/
@@ -100,6 +94,9 @@
         // testing only, displays the current answer
         //document.getElementById('feedback').innerHTML = rand;
 
+        // keeps track of duplicates for repeated guess chain
+            let duplicates = 0;
+
         // runs feedback logic
         const logic = () => {
             let guess = document.getElementById('score-input').value; // value is determined by user input
@@ -112,56 +109,66 @@
                 document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
             }
 
-            // checking for duplicate entries before conducting comparison logic
-            if (checkDuplicateEntry(guess) == true) {
-                feedbackText = 'You have already guessed this. Try again.';
-
-                document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
-            }
             else {
-                if (guess < rand) {
-                    feedbackText = 'Guess too low, try again.';
-                    ++guessCount;
-                    guessList.push(guess);
+                // checking for duplicate entries before conducting comparison logic
+                if (checkDuplicateEntry(guess) == true) {
+                    ++duplicates;
+                    // Shows a chain the culminates in a game restart if you reach 10 duplicates
+                    if (duplicates >= 1 && duplicates <= 9) {
+                        feedbackText = chooseDuplicateLine(duplicates);
 
-                    document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
+                        document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
+                    }
+                    else if (duplicates >= 10) {
+                        document.getElementById('feedback').innerHTML = 'L';
+                        location.reload();
+                    }
                 }
-                else if (guess > rand) {
-                    feedbackText = 'Guess too high, try again.';
-                    ++guessCount;
-                    guessList.push(guess);
+                else {
+                    if (guess < rand) {
+                        feedbackText = 'Guess too low, try again.';
+                        ++guessCount;
+                        guessList.push(guess);
 
-                    document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
-                }
-                else if (guess == rand) {
-                    feedbackText = 'Guess correct.'
-                    ++guessCount;
-                    guessList.push(guess);
-                    
-                    // hides the input and button and brings up the final feedback + the final two buttons
-                    document.getElementById('score-field').style.display='none';
-                    document.getElementById('feedback').style.marginTop='50px';
-                    document.getElementById('feedback').style.fontSize='large';
-                    document.getElementById('feedback').style.textAlign='justify';
-                    document.getElementById('end').style.display='grid';
+                        document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
+                    }
+                    else if (guess > rand) {
+                        feedbackText = 'Guess too high, try again.';
+                        ++guessCount;
+                        guessList.push(guess);
 
-                    //saves user info
-                    leaderCheck(JSON.parse(localStorage.getItem('username')).name, guessCount);
+                        document.getElementById('feedback').innerHTML = feedbackText + ' Tries: ' + guessCount;
+                    }
+                    else if (guess == rand) {
+                        feedbackText = 'Guess correct.'
+                        ++guessCount;
+                        guessList.push(guess);
+                        
+                        // hides the input and button and brings up the final feedback + the final two buttons
+                        document.getElementById('score-field').style.display='none';
+                        document.getElementById('feedback').style.marginTop='50px';
+                        document.getElementById('feedback').style.fontSize='large';
+                        document.getElementById('feedback').style.textAlign='justify';
+                        document.getElementById('end').style.display='grid';
 
-                    // collection of user attempts
-                    for (let i = 0; i < guessList.length; ++i) {
-                        if (i == guessList.length - 1) {
-                            attemptNum += guessList[i] + '.';
-                            break;
+                        //saves user info
+                        leaderCheck(JSON.parse(localStorage.getItem('username')).name, guessCount);
+
+                        // collection of user attempts
+                        for (let i = 0; i < guessList.length; ++i) {
+                            if (i == guessList.length - 1) {
+                                attemptNum += guessList[i] + '.';
+                                break;
+                            }
+                            attemptNum += guessList[i] + ', ';
                         }
-                        attemptNum += guessList[i] + ', ';
-                    }
 
-                    if (guessCount == 1) {
-                    document.getElementById('feedback').innerHTML = 'Congratulations! It took you ' + guessCount + ' try to get the correct number.\nHere is your attempt history: ' + attemptNum + '\n' + insult(guessCount); 
-                    }
-                    else {
-                        document.getElementById('feedback').innerHTML = 'Congratulations! It took you ' + guessCount + ' tries to get the correct number.\nHere is your attempt history: ' + attemptNum + '\n' + insult(guessCount);
+                        if (guessCount == 1) {
+                        document.getElementById('feedback').innerHTML = 'Congratulations! It took you ' + guessCount + ' try to get the correct number.\nHere is your attempt history: ' + attemptNum + '\n' + insult(guessCount); 
+                        }
+                        else {
+                            document.getElementById('feedback').innerHTML = 'Congratulations! It took you ' + guessCount + ' tries to get the correct number.\nHere is your attempt history: ' + attemptNum + '\n' + insult(guessCount);
+                        }
                     }
                 }
             }
@@ -178,7 +185,12 @@
             return false;
         };
 
-        
+        // chooses which line in the duplicate chain to pass to the display
+        const chooseDuplicateLine = (duplicateCount) => {
+            const lines = ['You have already guessed this. Try again.', 'Mate, you already guessed this, try something else.', 'Are you blind? You already guessed this!', 'DUDE! YOU ALREADY GUESSED THIS.', 'PLEASE TRY SOMETHING ELSE, YOU ALREADY GUESSED THIS PLEASE.', 'HOLY FUCK TRY SOMETHING NEW.', 'BRO HOW ARE YOU THIS STUBBORN?', 'Bro, seriously, trying something else or I will boot your ass off my game.', 'Last. fucking. chance.'];
+            return lines[duplicateCount - 1];
+        };
+
         /*Data Handling*/
         // Saves the user's name to a local JSON file
         const saveName = (param_name) => {
@@ -190,7 +202,7 @@
         };
         //Redefines leaderList to be sorted by ascending order of user scores. Also adds user name and score to history array.
         const leaderCheck = (name, score) => {
-            /* So instead of having a set object for the top 10 scores, I'll just implement an object that stores the entire history of scores and names. It'll add to itself after each playthrough. In terms of sorting the top 10, and eventually displaying them, I can just truncate the score history object.
+            /* So instead of having a set object for the top 5 scores, I'll just implement an object that stores the entire history of scores and names. It'll add to itself after each playthrough. In terms of sorting the top 10, and eventually displaying them, I can just truncate the score history object.
             */
            let userInfo = {
                "name": String(name),
@@ -270,14 +282,21 @@
             document.getElementById('leaderboard').innerHTML = leaderboardText;
             document.getElementById('end').style.display = 'none';
 
+
         };
         document.getElementById('leaderboard-btn').onclick = displayLeaders;
+
+        // const weDoALittleBitOfTrolling = () => {
+        //     document.getElementById('troll').style.color = 'mediumorchid';
+        // };
+        // document.getElementById('troll').onclick = weDoALittleBitOfTrolling;
 
     </script>
     
 </body>
 
 <footer>
+
     <br>
     <hr style="width: 70%; margin: auto;">
     <p>
@@ -289,6 +308,7 @@
     <p id="troll" onclick="weDoALittleBitOfTrolling()" title="Privacy Policy">
         Our privacy policy
     </p>
+
 </footer>
 
 </html>
