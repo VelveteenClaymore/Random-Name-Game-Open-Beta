@@ -15,4 +15,7 @@ Version Requirements are the same.
 Synopsis: Small changes were made to button displays, mainly how they scaled to smaller windows. The main change of this update was the addition of logic that checks whether an entry is a duplicate of a previous entry. If so, it prevents those duplicates from counting against the user. This system works but is open for improvements. Future updates will be more focused on aesthetic.
 TL:DR: If you put the same answer twice, it doesn't count against you now.
 
-# Current Version: Open Beta v1.1
+# Subupdate 1.1.1
+Synopsis: Adding a chain event where the more duplicates you get, the most antagonizing the dialogue gets. If you get 10 duplicates somehow, the game resets.
+
+# Current Version: Open Beta v1.1.1
