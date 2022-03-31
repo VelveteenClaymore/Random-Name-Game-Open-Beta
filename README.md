@@ -18,4 +18,5 @@ TL:DR: If you put the same answer twice, it doesn't count against you now.
 # Subupdate 1.1.1
 Synopsis: Adding a chain event where the more duplicates you get, the most antagonizing the dialogue gets. If you get 10 duplicates somehow, the game resets.
 
-# Current Version: Open Beta v1.1.1
+# State of the Build
+Due to complications with development in ReactJS, this project is on hiatus indefinitely.
